@@ -54,7 +54,14 @@ def update_contact(id):
             contact['phone'] = request.json['phone'] if 'phone' in request.json else contact['phone']
             return contact
     return f'There is no contact with that id'
-     
+
+@app.delete('contacts/<id>')
+def delete_contact(id):
+    for contact in contacts:
+        if contact['id'] == id:
+            contacts.remove(contact)
+            return contact
+    return f'There is no contact with that id'         
 # GET /contacts - list
 # GET /contacts/<id> - read
 # POST /contacts - create
