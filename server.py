@@ -1,7 +1,9 @@
-from flask import Flask
+from flask import Flask, request
 
 
 app = Flask(__name__)
+
+next_id = 5
 
 contacts =[
     {'id':'0','name': 'Shaun', 'phone':'123-234-3456'},
@@ -27,6 +29,22 @@ def read_single_contact(id):
            return contact
         else:
             return f'That contact does not exist!' 
+
+@app.post('/contacts')
+def create_contacts():
+    global next_id
+    
+    new_contact = {
+        'id': f'{next_id}',
+        'name': request.json['name'],
+        'phone':request.json['phone'],
+    }
+
+    contacts.append(new_contact)
+
+    next_id += 1
+
+    return new_contact
 
 
 if __name__ == '__main__':
